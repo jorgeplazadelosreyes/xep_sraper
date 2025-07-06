@@ -2,9 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/
-COPY app /app/app/
-COPY main.py /app/
+COPY . .
 
 RUN apt-get update && \
   apt-get install -y wget gnupg libnss3 libxss1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libgtk-3-0 libx11-xcb1 curl && \

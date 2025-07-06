@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException
 from app.scraper import scraper
+from app.google_sheet_writing import write_to_gsheet
 
 app = FastAPI()
 
@@ -13,5 +14,9 @@ async def scrape(request: Request):
   if not category:
     raise HTTPException(status_code=400, detail="Missing 'category' parameter")
 
-  status, posts = await scraper(category)
-  return {"status": status, "posts": posts}
+  posts_status, posts = await scraper(category)
+  if posts_status != "success":
+    raise HTTPException(status_code=500, detail=posts_status)
+  write_status = write_to_gsheet(posts)
+
+  return {"status": write_status, "posts": posts}
