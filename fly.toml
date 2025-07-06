@@ -1,7 +1,4 @@
 app = "xep-sraper"
 
-[build]
-  image = "scraper-api"
-
 [env]
   PORT = "8080"
