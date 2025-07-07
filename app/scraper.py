@@ -131,14 +131,13 @@ async def scraper(category):
     return 'error: connection error, try again', []
 
   allowed_categories = ['all'] + list(all_categories.keys())
-  print(f"Allowed categories: {allowed_categories}")
+  parsed_category = unidecode(category).lower().strip()
 
-  if category.lower() not in allowed_categories:
+  if parsed_category not in allowed_categories:
     return 'error: category not found', []
 
-  posts = await get_blog_posts_for_category(category, all_categories)
+  posts = await get_blog_posts_for_category(parsed_category, all_categories)
   if not posts:
     return 'error: connection error, try again', []
 
-  print(f"Total posts: {len(posts)}")
   return 'success', posts
